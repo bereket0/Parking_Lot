@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .card-title {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title"><b>Add Parking Entry</b></h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="entryForm">
+                            <div class="form-group">
+                                <label for="owner">Car Owner/Driver:</label>
+                                <input type="text" class="form-control" id="owner" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="car">Car Brand/Model/Color:</label>
+                                <input type="text" class="form-control" id="car" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="licensePlate">License Plate:</label>
+                                <input type="text" class="form-control" id="licensePlate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-12 mt-lg-0 mt-md-4 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title"><b>Parking Lot</b></h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="searchInput" placeholder="Search by Car Owner/Driver">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-hover mt-4">
+                                <thead id="tableHead">
+                                    <tr>
+                                        <th scope="col">Car Owner/Driver</th>
+                                        <th scope="col">Car Brand/Model/Color</th>
+                                        <th scope="col">License Plate</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    <!-- Data will be dynamically populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Simulated data
+        const parkingEntries = [
+            { owner: "Bereket Melkamu", car: "Toyota Camry/Black", licensePlate: "ABC123" },
+            { owner: "Tsion Adane", car: "Honda Accord/White", licensePlate: "XYZ789" },
+            { owner: "Ruth Fisseha", car: "Ford Mustang/Red", licensePlate: "DEF456" }
+        ];
+
+        // Function to add a parking entry to the table
+        function addEntryToTable(entry) {
+            const tableBody = document.getElementById("tableBody");
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${entry.owner}</td>
+                <td>${entry.car}</td>
+                <td>${entry.licensePlate}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="deleteEntry(this)">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(newRow);
+        }
+
+        // Function to delete a parking entry from the table
+        function deleteEntry(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        // Populate initial parking entries
+        parkingEntries.forEach(entry => addEntryToTable(entry));
+
+        // Handle form submission
+        const entryForm = document.getElementById("entryForm");
+        entryForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const owner = document.getElementById("owner").value;
+            const car = document.getElementById("car").value;
+            const licensePlate = document.getElementById("licensePlate").value;
+
+            const newEntry = { owner, car, licensePlate };
+            addEntryToTable(newEntry);
+
+            entryForm.reset();
+        });
+    </script>
+</body>
+
+</html>
